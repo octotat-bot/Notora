@@ -1,0 +1,174 @@
+.notebook-selector {
+  position: relative;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+.notebook-selector-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.notebook-selector-header:hover {
+  background-color: #f0f0f0;
+  border-color: #ccc;
+}
+.notebook-selector-current {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+}
+.notebook-icon {
+  color: #555;
+  font-size: 1rem;
+}
+.notebook-name {
+  font-size: 0.95rem;
+  color: #333;
+  flex: 1;
+}
+.notebook-placeholder {
+  color: #999;
+  font-size: 0.95rem;
+}
+.dropdown-icon {
+  color: #777;
+  transition: transform 0.2s ease;
+}
+.dropdown-icon.open {
+  transform: rotate(180deg);
+}
+.notebook-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  margin-top: 4px;
+  max-height: 300px;
+  display: flex;
+  flex-direction: column;
+}
+.notebook-list {
+  overflow-y: auto;
+  max-height: 250px;
+}
+.notebook-option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.notebook-option:hover {
+  background-color: #f5f5f5;
+}
+.notebook-option.selected {
+  background-color: rgba(255, 215, 0, 0.1);
+  font-weight: 500;
+}
+.notebook-option.selected .notebook-icon {
+  color: var(--color-primary);
+}
+.no-notebooks {
+  padding: 1rem;
+  text-align: center;
+  color: #999;
+  font-style: italic;
+}
+.notebook-dropdown-footer {
+  padding: 0.75rem;
+  border-top: 1px solid #eee;
+}
+.create-notebook-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.5rem;
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  color: #555;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+.create-notebook-button:hover {
+  background-color: #eee;
+  border-color: #ccc;
+}
+.create-notebook-form {
+  padding: 0.75rem;
+}
+.new-notebook-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 0.75rem;
+  font-size: 0.95rem;
+}
+.new-notebook-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.2);
+}
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+.cancel-button, .create-button {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.cancel-button {
+  background-color: transparent;
+  border: 1px solid #ddd;
+  color: #555;
+}
+.cancel-button:hover {
+  background-color: #f5f5f5;
+}
+.create-button {
+  background-color: var(--color-primary);
+  border: none;
+  color: #333;
+}
+.create-button:hover {
+  background-color: var(--color-primary-dark);
+}
+.create-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.clear-notebook-button {
+  background: transparent;
+  border: none;
+  color: #999;
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+.clear-notebook-button:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: #666;
+}
