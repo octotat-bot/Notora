@@ -1,12 +1,53 @@
-# React + Vite
+# Notora - Modern Note Taking App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Notora is a clean, simple note-taking application built with React and Vite.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Clean, modern UI with responsive design
+- Create notes with titles and content
+- Search functionality for quick access to notes
+- Trash system with restore capability
+- Local storage persistence for notes
+- Confirmation dialogs for destructive actions
+- Sidebar navigation with placeholder sections for future features
 
-## Expanding the ESLint configuration
+## Tech Stack
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- React 19
+- Vite
+- JavaScript
+- CSS Variables for theming
+- SVG icons for visual elements
+- LocalStorage for data persistence
+
+## Getting Started
+
+1. Clone the repository
+   ```
+   git clone https://github.com/octotat-bot/Notora.git
+   cd notora
+   ```
+
+2. Install dependencies
+   ```
+   npm install
+   ```
+
+3. Start the development server
+   ```
+   npm run dev
+   ```
+
+4. Build for production
+   ```
+   npm run build
+   ```
+
+## Future Enhancements
+
+- Tags functionality
+- Note archiving
+- Notebooks organization
+- Note locking with authentication
+- Cloud sync
