@@ -307,6 +307,66 @@
 .sidebar.collapsed .new-note-btn span {
   display: none;
 }
+
+/* Protected navigation items */
+.nav-item.protected {
+  opacity: 0.6;
+  position: relative;
+}
+
+.nav-item.protected:hover {
+  opacity: 0.8;
+}
+
+.lock-indicator {
+  margin-left: 8px;
+  font-size: 0.8rem;
+  opacity: 0.7;
+}
+
+/* Sidebar authentication */
+.sidebar-auth {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(139, 69, 19, 0.2);
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  backdrop-filter: blur(3px);
+}
+
+.user-name {
+  font-size: 0.9rem;
+  color: var(--color-text);
+  font-weight: 500;
+}
+
+.sign-in-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+  justify-content: center;
+}
+
+.sign-in-btn:hover {
+  background: #0056b3;
+  transform: translateY(-1px);
+}
 .main-content {
   margin-left: 250px;
   min-height: 100vh;

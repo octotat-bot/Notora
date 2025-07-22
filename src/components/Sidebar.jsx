@@ -1,5 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useNotes } from '../context/NotesContext';
+import { useUser, SignInButton, UserButton } from '@clerk/clerk-react';
 import {
   FiHome,
   FiArchive,
@@ -14,6 +15,7 @@ import {
 } from 'react-icons/fi';
 const Sidebar = ({ collapsed, toggleSidebar }) => {
   const location = useLocation();
+  const { isSignedIn, user } = useUser();
   const { notes, archivedNotes, trashedNotes, lockedNotes, tags, notebooks } = useNotes();
   const navItems = [
     {
@@ -38,7 +40,8 @@ const Sidebar = ({ collapsed, toggleSidebar }) => {
       path: '/notebooks',
       name: 'Notebooks',
       icon: <FiBook />,
-      count: notebooks.length
+      count: notebooks.length,
+      protected: true
     },
     {
       path: '/trash',
@@ -50,7 +53,8 @@ const Sidebar = ({ collapsed, toggleSidebar }) => {
       path: '/locked',
       name: 'Locked Notes',
       icon: <FiLock />,
-      count: lockedNotes.length
+      count: lockedNotes.length,
+      protected: true
     },
     {
       path: '/profile',
@@ -75,24 +79,48 @@ const Sidebar = ({ collapsed, toggleSidebar }) => {
         </button>
       </div>
       <div className="sidebar-nav">
-        {navItems.map((item) => (
-          <Link 
-            key={item.path} 
-            to={item.path} 
-            className={`nav-item ${location.pathname === item.path ? 'active' : ''}`}
-          >
-            <span className="nav-item-icon">{item.icon}</span>
-            {!collapsed && (
-              <span className="nav-item-text">{item.name}</span>
-            )}
-          </Link>
-        ))}
+        {navItems.map((item) => {
+          const isProtected = item.protected && !isSignedIn;
+          return (
+            <Link 
+              key={item.path} 
+              to={item.path} 
+              className={`nav-item ${location.pathname === item.path ? 'active' : ''} ${isProtected ? 'protected' : ''}`}
+              title={isProtected ? `Sign in to access ${item.name}` : ''}
+            >
+              <span className="nav-item-icon">{item.icon}</span>
+              {!collapsed && (
+                <span className="nav-item-text">
+                  {item.name}
+                  {isProtected && <span className="lock-indicator">🔒</span>}
+                </span>
+              )}
+            </Link>
+          );
+        })}
       </div>
       <div className="sidebar-actions">
         <Link to="/new" className="new-note-btn">
           <FiPlus />
           {!collapsed && <span>New Note</span>}
         </Link>
+        
+        {!collapsed && (
+          <div className="sidebar-auth">
+            {isSignedIn ? (
+              <div className="user-info">
+                <UserButton afterSignOutUrl="/" />
+                <span className="user-name">{user?.firstName || 'User'}</span>
+              </div>
+            ) : (
+              <SignInButton mode="modal">
+                <button className="sign-in-btn">
+                  <FiUser /> Sign In
+                </button>
+              </SignInButton>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

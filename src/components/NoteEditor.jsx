@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, createPortal } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useUser } from '@clerk/clerk-react';
 import { useNotes } from '../context/NotesContext';
 import { useNotification } from '../context/NotificationContext';
 import { 
@@ -18,7 +19,7 @@ import {
   FiAlertTriangle
 } from 'react-icons/fi';
 import PinModal from './PinModal';
-import NotebookSelector from './NotebookSelector';
+import '../styles/NoteEditor.css';
 const NoteEditor = ({ 
   mode = 'create',
   title: initialTitle = '',
@@ -29,10 +30,12 @@ const NoteEditor = ({
   onContentChange,
   onTagsChange,
   onNotebookChange,
+  onSave,
   readOnly = false
 }) => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { isSignedIn } = useUser();
   const { 
     notes, 
     archivedNotes, 
@@ -86,25 +89,37 @@ const NoteEditor = ({
     setIsSaving(true);
     try {
       const currentContent = editorRef.current ? editorRef.current.innerHTML : content;
-      if (mode === 'create') {
-        const noteData = {
-          title,
-          content: currentContent,
-          notebookId: selectedNotebook,
-          tagIds: selectedTags
-        };
-        const newNote = createNote(noteData);
-        navigate('/');
-        showSuccess('Note created successfully!');
-      } else if (mode === 'edit' && id) {
-        updateNote(id, {
+      
+      // If parent component provided onSave handler, use it
+      if (onSave) {
+        onSave({
           title,
           content: currentContent,
           notebookId: selectedNotebook,
           tagIds: selectedTags
         });
-        navigate('/');
-        showSuccess('Note updated successfully!');
+      } else {
+        // Fallback to direct save if no parent handler
+        if (mode === 'create') {
+          const noteData = {
+            title,
+            content: currentContent,
+            notebookId: selectedNotebook,
+            tagIds: selectedTags
+          };
+          const newNote = createNote(noteData);
+          navigate('/');
+          showSuccess('Note created successfully!');
+        } else if (mode === 'edit' && id) {
+          updateNote(id, {
+            title,
+            content: currentContent,
+            notebookId: selectedNotebook,
+            tagIds: selectedTags
+          });
+          navigate('/');
+          showSuccess('Note updated successfully!');
+        }
       }
     } catch (error) {
       console.error('Error saving note:', error);
@@ -370,7 +385,59 @@ const NoteEditor = ({
             />
           </label>
         </div>
+        
+        <div className="toolbar-separator" />
+        <div className="action-buttons">
+          <button 
+            className="toolbar-button save-button"
+            onClick={handleSave}
+            aria-label="Save Note"
+            title="Save Note"
+            disabled={isSaving}
+          >
+            <FiSave /> {isSaving ? 'Saving...' : 'Save'}
+          </button>
+          <button 
+            className="toolbar-button archive-button"
+            onClick={handleArchive}
+            aria-label="Archive Note"
+            title="Archive Note"
+          >
+            <FiArchive /> Archive
+          </button>
+          <button 
+            className="toolbar-button lock-button"
+            onClick={handleLock}
+            aria-label="Lock Note"
+            title="Lock Note"
+          >
+            <FiLock /> Lock
+          </button>
+        </div>
       </div>
+      
+      <div className="editor-content">
+        <input
+          type="text"
+          className="note-title"
+          placeholder="Note Title"
+          value={title}
+          onChange={(e) => {
+            setTitle(e.target.value);
+            if (onTitleChange) onTitleChange(e.target.value);
+          }}
+          readOnly={readOnly}
+        />
+        
+        <div 
+          ref={editorRef}
+          className="notebook-paper"
+          contentEditable={!readOnly}
+          placeholder="Start writing your note here..."
+          dangerouslySetInnerHTML={{ __html: content }}
+        ></div>
+      </div>
+      
       {showArchiveConfirmation && createPortal(
         <div className="confirmation-content" style={{ background: '#ffffff', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', border: '3px solid #ffff00', position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: '1000', padding: '16px', borderRadius: '8px', maxWidth: '350px', margin: '0 auto' }} onClick={(e) => e.stopPropagation()}>
           <h3 style={{ marginTop: '0' }}><FiAlertTriangle /> Archive Note</h3>

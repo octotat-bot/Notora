@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
 import ErrorBoundary from './components/ErrorBoundary.jsx'
+import { ClerkProvider } from '@clerk/clerk-react'
 try {
   const rootElement = document.getElementById('root');
   if (!rootElement) {
@@ -12,7 +13,9 @@ try {
   root.render(
     <React.StrictMode>
       <ErrorBoundary>
-        <App />
+        <ClerkProvider publishableKey={import.meta.env.VITE_CLERK_PUBLISHABLE_KEY}>
+          <App />
+        </ClerkProvider>
       </ErrorBoundary>
     </React.StrictMode>
   );
